@@ -63,10 +63,10 @@
     }
     .navbar .nav-link {
         color: var(--gray-color);
-        font-weight: 500;
+        transition: var(--transition-175s);
     }
     .navbar .nav-link:hover {
-        
+        color: var(--secondary-color);
     }
     .navbar .nav-link.active,
     .navbar .nav-link.active:hover {
@@ -74,7 +74,7 @@
         background-color: transparent;
     }
     .user {
-        padding: 0.9rem 1rem !important;
+        padding: 0.7rem 0.8rem !important;
         border-radius: 50%;
         border: 1px solid var(--tertiary-color);
         color: var(--tertiary-color);
