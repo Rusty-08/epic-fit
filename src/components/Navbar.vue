@@ -1,5 +1,5 @@
 <script setup>
-    import { faUser } from '@fortawesome/free-solid-svg-icons'
+    import { faUser, faUserSecret } from '@fortawesome/free-solid-svg-icons'
     import { ref } from 'vue'
 
     let navlinks = [
@@ -29,7 +29,7 @@
                     :key="index"
                 >
                     <button 
-                        class="nav-link fs-7" 
+                        class="nav-link fs-8" 
                         :class="{ 'active': link == 'Home' }"
                         :id="convertToLink(link)" 
                         data-bs-toggle="pill" 
@@ -43,7 +43,9 @@
                     </button>
                 </li>
             </ul>
-            <icon :icon="faUser" class="user" />
+            <button class="user btn">
+                <icon :icon="faUserSecret" />
+            </button>
         </div>
     </nav>
 </template>
@@ -61,22 +63,30 @@
     .navbar .logo>span {
         color: var(--tertiary-color);
     }
-    .navbar .nav-link {
+    .navbar .nav-link { 
         color: var(--gray-color);
         transition: var(--transition-175s);
     }
     .navbar .nav-link:hover {
-        color: var(--secondary-color);
+        color: var(--tertiary-color);
+        opacity: 0.5;
     }
     .navbar .nav-link.active,
     .navbar .nav-link.active:hover {
+        opacity: 1;
         color: var(--tertiary-color);
         background-color: transparent;
     }
     .user {
-        padding: 0.7rem 0.8rem !important;
+        width: 2.5rem;
+        height: 2.5rem;
         border-radius: 50%;
-        border: 1px solid var(--tertiary-color);
-        color: var(--tertiary-color);
+        border: 1px solid var(--gray-light-color);
+        color: var(--gray-color);
+        transition: var(--transition-175s);
+    }
+    .user:hover {
+        border-color: var(--gray-color);;
+        color: var(--secondary-color);
     }
 </style>
