@@ -14,9 +14,9 @@
   
   <main class="tab-content">
     <Home />
-    <AboutUs/>
-    <Community/>
-    <ContactUs/>
+    <AboutUs />
+    <Community />
+    <ContactUs />
   </main>
 </template>
 
