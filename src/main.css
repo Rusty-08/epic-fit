@@ -11,8 +11,15 @@
   --primary-color: #FFFFFF;
   --secondary-color: #151328;
   --tertiary-color: #FF9F3E;
+  --light-color: #e3e2e9;
   --gray-light-color: #b5b3c3;
+  --gray-dark-color: #413a31;
   --gray-color: #7f7d8e;
+  --basic-color: rgb(135, 206, 235);
+  --premium-color: rgb(215, 108, 108);
+  --family-color:  rgb(203, 170, 141);
+  --low-opacity-tertiary: rgba(255, 159, 62, 0.1);
+  --low-opacity-secondary: rgba(21, 19, 40, 0.1);
   --header-height: 5rem;
   --transition-175s: all 0.175s ease-in-out;
   --transition-275s: all 0.275s ease-in-out;
@@ -23,17 +30,20 @@ body {
   overflow-x: hidden;
 }
 
-h1, h2, h3 {
+h1, h2 {
   color: var(--secondary-color) !important;
+}
+
+h3, h4, h5 {
+  color: var(--gray-dark-color) !important;
 }
 
 p {
   color: var(--gray-color) !important;
 }
 
-ul, li, a {
+a {
   text-decoration: none !important;
-  list-style: none !important;
 }
 
 .fs-7 {
@@ -42,4 +52,12 @@ ul, li, a {
 
 .fs-8 {
   font-size: 0.85rem !important;
+}
+
+.fs-9 {
+  font-size: 0.8rem !important;
+}
+
+.fs-10 {
+  font-size: 0.75rem !important;
 }

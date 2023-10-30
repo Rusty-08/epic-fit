@@ -14,11 +14,11 @@
         if(link.length > 1) return link.join('-')
         return link
     };
-    
+
 </script>
 
 <template>
-    <nav class="navbar">
+    <nav class="navbar fixed-top">
         <div class="container-fluid d-flex align-items-center justify-content-between px-5 mx-5">
             <a class="logo fs-5" href="">EPIC<span>FIT</span></a>
             <ul class="nav nav-pills" id="pills-tab" role="tablist">
@@ -38,6 +38,7 @@
                         role="tab" 
                         :aria-controls="`${convertToLink(link)}-section`" 
                         :aria-selected="link == 'Home' ? true : false"
+                        @click.prevent=""
                     >
                         {{ link }}
                     </button>
