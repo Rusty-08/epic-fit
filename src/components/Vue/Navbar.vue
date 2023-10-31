@@ -1,6 +1,6 @@
 <script setup>
     import { faUser, faUserSecret } from '@fortawesome/free-solid-svg-icons'
-    import { ref } from 'vue'
+    import { ref, onMounted } from 'vue'
 
     let navlinks = [
         'Home',
@@ -19,7 +19,7 @@
 
 <template>
     <nav class="navbar fixed-top">
-        <div class="container-fluid d-flex align-items-center justify-content-between px-5 mx-5">
+        <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
             <a class="logo fs-5" href="">EPIC<span>FIT</span></a>
             <ul class="nav nav-pills" id="pills-tab" role="tablist">
                 <li 
@@ -55,6 +55,12 @@
     .navbar {
         background-color: var(--primary-color);
         height: var(--header-height);
+        padding: 0 8%;
+        transition: var(--transition-175s);
+        overflow: hidden;
+    }
+    .navbar-scrolled {
+        height: 0;
     }
     .navbar .logo {
         color: var(--dark-color);

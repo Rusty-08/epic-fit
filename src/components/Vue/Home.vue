@@ -1,9 +1,8 @@
 <script setup>
-    import { ref, computed, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
+    import { ref, watch, computed, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
     import { faCheck, faCheckDouble, faDumbbell } from '@fortawesome/free-solid-svg-icons'
 
     const currentMember = ref('')
-    let alreadyAnimated = ref(false)
 
     let profiles = [
         { image: '/img/image1.svg', name: 'Jonny Sins' },
@@ -57,52 +56,22 @@
 
     let timer
 
-    onMounted(() => {
-        displayCurrentMembers()
-        timer = setInterval(displayCurrentMembers, 3000)
-    })
-
     onBeforeUnmount(() => {
         clearInterval(timer)
     })
 
-    let observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) { 
-                entry.target.classList.add('show')
-                setTimeout(() => alreadyAnimated.value = true, 1000)
-            }
-        })
-    })
-
     onMounted(() => {
-        const animatedElements = document.querySelectorAll('.animated')
-        animatedElements.forEach(el => observer.observe(el))
-    })
-
-    // const isNavbarHidden = ref(false)
-    // const lastScrollTop = ref(0)
-
-    // const onScroll = (e) => {
-    //     const st = e.target.scrollTop
-    //     if (st > lastScrollTop.value) {
-    //         isNavbarHidden.value = true
-    //         console.log(isNavbarHidden.value)
-    //     } else {
-    //         console.log(isNavbarHidden.value)
-    //     isNavbarHidden.value = false
-    //     }
-    //     lastScrollTop.value = st
-    // };
+        displayCurrentMembers()
+        timer = setInterval(displayCurrentMembers, 3000)
+    });
     
 </script>
 
 <template>
-    <div @scroll="onScroll" class="tab-pane px-5 mx-5 fade show active" id="home-section" role="tabpanel" aria-labelledby="home" tabindex="0">
-        <div class="home-landing vh-100 container pt-5 px-0 d-flex">
+    <div class="tab-pane fade show active" id="home-section" role="tabpanel" aria-labelledby="home" tabindex="0">
+        <div class="home-landing container pt-5 px-0 d-flex">
             <div 
                 class="introduction animated w-50 d-flex align-items-start justify-content-center flex-column"
-                :class="{ 'animatedOnce show': alreadyAnimated }"
             >
                 <h1 class="fw-bold mb-0">Unleash your Inner <span>Strength</span></h1>
                 <p class="my-3 pe-5">Achieve your fitness goals, and embrace a healthier you with our state-of-the-art facilities, expert trainers, and a supportive community that's with you every step of the way.</p>
@@ -122,7 +91,6 @@
             <div class="d-flex w-50 align-items-center justify-content-center">
                 <div 
                     class="home-images animated position-relative d-flex align-items-center justify-content-center"
-                    :class="{ 'animatedOnce show': alreadyAnimated }"
                 >
                     <img src="/img/Polygon1.svg" class="polygon position-absolute" alt="">
                     <img src="/img/dumbell1.svg" class="dumbell-one position-absolute" alt="">
@@ -167,7 +135,7 @@
 
 <style scoped>
     .home-landing {
-        height: calc(100vh - var(--header-height));
+        height: 100dvh;
     }
     .introduction {
         animation: fadeRight 1s ease-in;
@@ -232,8 +200,8 @@
         animation: fadeLeft 1s ease-in;
     }
     .pricing-header.show {
-        animation-delay: 100ms;
-        animation: fadeUp 1s ease;
+        animation-delay: 200ms;
+        animation: fadeUp 1s ease-in;
     }
     .pricing-header span {
         color: var(--tertiary-color);
@@ -271,7 +239,7 @@
         animation-delay: 200ms;
     }
     .pricing-category.show .pricing-item:nth-child(3) {
-        animation-delay: 400ms;
+        animation-delay: 300ms;
     }
     .pricing-item:first-child {
         background-color: rgba(135, 206, 235, 0.1) !important;
@@ -339,7 +307,7 @@
         color: rgba(203, 170, 141, 0.1) !important;
     }
     .pricing-item:hover {
-        transform: translateY(-1.5rem);
+        transform: translateY(-1rem);
     }
     .pricing-item:hover .dumbbell {
         height: 1.3rem;
@@ -382,70 +350,5 @@
     }
     .pricing-item:hover .price-amount {
         border-color: var(--primary-color) !important;
-    }
-
-
-
-
-
-
-    /* ANIMATIONS */
-    .animated {
-        opacity: 0;
-        transition: all 1s ease;
-    }
-    .show {
-        opacity: 1;
-    }
-    .animatedOnce,
-    .animatedOnce img,
-    .animatedOnce .current-members,
-    .animatedOnce .pricing-item {
-        animation: none !important;
-    }
-
-    /* KEYFRAMES */
-
-    @keyframes rotateFade {
-        from {
-            opacity: 0;
-            width: 0rem;
-            transform: rotate(120deg)
-        }
-        to {
-            opacity: 1;
-            width: 25rem;
-            transform: rotate(0)
-        }
-    }
-    @keyframes fadeUp {
-        from {
-            opacity: 0;
-            transform: translateY(100%)
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0)
-        }
-    }
-    @keyframes fadeLeft {
-        from {
-            opacity: 0;
-            transform: translateX(100%)
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0)
-        }
-    }
-    @keyframes fadeRight {
-        from {
-            opacity: 0;
-            transform: translateX(-100%)
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0)
-        }
     }
 </style>
