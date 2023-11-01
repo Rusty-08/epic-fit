@@ -20,7 +20,7 @@
   })
 
   onMounted(() => {
-      window.addEventListener('scroll', function () {
+      window.addEventListener('scroll', () => {
           const scrollHeight = window.scrollY 
           if (scrollHeight > prevScrollHeight.value) {
               document.documentElement.style.setProperty('--header-height', '0')
@@ -28,6 +28,22 @@
               document.documentElement.style.setProperty('--header-height', '5rem')
           }
           prevScrollHeight.value = scrollHeight
+      })
+
+      window.addEventListener('load', () => {
+        const pages = document.querySelectorAll('.tab-pane')
+        pages.forEach(page => 
+          page.classList.remove('active') &&
+          page.classList.remove('show')
+        )
+        
+        pages.forEach((page, index) => {
+          let activePage = localStorage.getItem('activePage')
+          if (index == activePage) {
+            page.classList.add('active')
+            page.classList.add('show')
+          }
+        })
       })
 
       const animatedElements = document.querySelectorAll('.animated')

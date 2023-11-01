@@ -17,17 +17,17 @@
             <img src="/img/about-image.png" class="animated position-absolute" alt="">
         </div>
         <div class="our-story position-relative mt-5 d-flex py-2 align-items-center justify-content-center">
-            <div class="w-50 position-relative d-flex align-items-center justify-content-center">
-                <img src="/img/person.png" class="" alt="">
-                <img src="/img/Polygon1.svg" class="position-absolute" alt="">
+            <div class="our-story-image animated w-50 position-relative d-flex align-items-center justify-content-center">
+                <img src="/img/person.png" class="person" alt="">
+                <img src="/img/Polygon1.svg" class="polygon position-absolute" alt="">
             </div>
-            <div class="more-info pe-5 w-50 d-flex py-5 align-items-start flex-column justify-content-center">
-                <h4 class="fw-semibold mb-3">Want to Get to Know Us Better?</h4>
-                <span class="fw-semibold fs-6 my-2">Our Story</span>
-                <p class="fs-8 pe-5">At EPICFIT, we have a story that's deeply rooted in our passion for fitness and a commitment to making a positive impact on people's lives. Founded by Gol D. Roger in 2010, our journey began with a simple but powerful belief - that a healthier and happier life is within reach for everyone. We started as a small fitness center with a big dream: to create a welcoming, inclusive, and motivating space for our community. Over the years, we've grown and evolved, but our core values have remained the same. Today, we're proud to be a vibrant and thriving fitness hub where individuals of all backgrounds, fitness levels, and ages come together to achieve their health and wellness goals.</p>
+            <div class="more-info animated pe-5 w-50 d-flex py-5 align-items-start flex-column justify-content-center">
+                <h4 class="our-story-title fw-semibold mb-3">Want to Get to Know Us Better?</h4>
+                <span class="story-sub-title fw-semibold fs-6 my-2">Our Story</span>
+                <p class="our-story-desc fs-8">At EPICFIT, we have a story that's deeply rooted in our passion for fitness and a commitment to making a positive impact on people's lives. Founded by Gol D. Roger in 2010, our journey began with a simple but powerful belief - that a healthier and happier life is within reach for everyone. We started as a small fitness center with a big dream: to create a welcoming, inclusive, and motivating space for our community. Over the years, we've grown and evolved, but our core values have remained the same. Today, we're proud to be a vibrant and thriving fitness hub where individuals of all backgrounds, fitness levels, and ages come together to achieve their health and wellness goals.</p>
             </div>
-            <svg class="position-absolute top-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#151328" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,96C384,107,480,117,576,122.7C672,128,768,128,864,112C960,96,1056,64,1152,64C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
-            <svg class="position-absolute bottom-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#151328" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,96C384,107,480,117,576,122.7C672,128,768,128,864,112C960,96,1056,64,1152,64C1248,64,1344,96,1392,112L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
+            <svg class="position-absolute top-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 220"><path fill="#151328" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,96C384,107,480,117,576,122.7C672,128,768,128,864,112C960,96,1056,64,1152,64C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+            <svg class="position-absolute bottom-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 220"><path fill="#151328" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,96C384,107,480,117,576,122.7C672,128,768,128,864,112C960,96,1056,64,1152,64C1248,64,1344,96,1392,112L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
         </div>
     </div>
 </template>
@@ -47,6 +47,7 @@
     }
     .about-header p {
         color: var(--gray-color) !important;
+        font-family: 'Nunito', sans-serif;
     }
     .about-header h1 {
         font-size: 4rem;
@@ -71,28 +72,53 @@
     .our-story {
         background-color: var(--secondary-color);
         margin-top: 7rem !important;
+        padding-left: 8% !important;
+        padding-right: 8% !important;
+        margin-bottom: 7rem !important;
     }
-    .our-story img {
+    .our-story-image .polygon {
+        width: 25rem;
+        z-index: 10 !important;
+    }
+    .our-story-image .person {
+        z-index: 15 !important;
         width: 20rem;
     }
-    .our-story img:first-child {
-        z-index: 5;
+    .our-story-image.show .polygon {
+        animation: fadeRight 1s ease;
+    }
+    .our-story-image.show .person {
+        animation: fadeUp 1s ease;
     }
     .more-info h4,
+    
     .more-info span {
         color: var(--primary-color) !important;
         z-index: 5;
+        font-family: 'Nunito', sans-serif;
     }
     .more-info p {
         color: var(--gray-light-color) !important;
     }
+    .more-info.show .our-story-title  {
+        animation: fadeUp 1s ease;
+        animation-delay: 100ms;
+    }
+    .more-info.show .story-sub-title  {
+        animation: fadeUp 1s ease;
+        animation-delay: 200ms;
+    }
+    .more-info.show .our-story-desc{
+        animation: fadeUp 1s ease;
+        animation-delay: 300ms;
+    }
     .top-wave {
-       top: -40%;
+       top: -150px;
        left: 0;
        right: 0;
     }
     .bottom-wave {
-        bottom: -60%;
+        bottom: -150px;
         left: 0;
         right: 0;
     }

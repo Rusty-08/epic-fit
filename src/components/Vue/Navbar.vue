@@ -3,16 +3,25 @@
     import { ref, onMounted } from 'vue'
 
     let navlinks = [
-        'Home',
-        'About Us',
-        'Community',
-        'Contact Us'
+        'HOME',
+        'ABOUT US',
+        'COMMUNITY',
+        'CONTACT US'
     ]
 
     const convertToLink = e => {
         let link = e.toLowerCase().split(' ')
         if(link.length > 1) return link.join('-')
         return link
+    }
+
+    const openPage = (index) => {
+        window.scrollTo(0, 0)
+        localStorage.setItem('activePage', index)
+    }
+
+    const getActiveLink = () => {
+        return localStorage.getItem('activePage')
     };
 
 </script>
@@ -21,7 +30,7 @@
     <nav class="navbar fixed-top">
         <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
             <a class="logo fs-5" href="">EPIC<span>FIT</span></a>
-            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+            <ul class="nav nav-pills d-flex gap-4" id="pills-tab" role="tablist">
                 <li 
                     class="nav-item" 
                     role="presentation"
@@ -29,8 +38,8 @@
                     :key="index"
                 >
                     <button 
-                        class="nav-link fs-8" 
-                        :class="{ 'active': link == 'Home' }"
+                        class="nav-link px-0 fs-10" 
+                        :class="{ 'active': index == getActiveLink() }"
                         :id="convertToLink(link)" 
                         data-bs-toggle="pill" 
                         :data-bs-target="`#${convertToLink(link)}-section`" 
@@ -38,7 +47,7 @@
                         role="tab" 
                         :aria-controls="`${convertToLink(link)}-section`" 
                         :aria-selected="link == 'Home' ? true : false"
-                        @click.prevent=""
+                        @click="openPage(index)"
                     >
                         {{ link }}
                     </button>
@@ -56,7 +65,7 @@
         background-color: var(--primary-color);
         height: var(--header-height);
         padding: 0 8%;
-        transition: var(--transition-175s);
+        transition: var(--transition-275s);
         overflow: hidden;
     }
     .navbar-scrolled {
@@ -73,16 +82,29 @@
     .navbar .nav-link { 
         color: var(--gray-color);
         transition: var(--transition-175s);
+        font-family: 'Nunito', sans-serif;
+        position: relative;
+        font-weight: 500;
     }
     .navbar .nav-link:hover {
         color: var(--tertiary-color);
-        opacity: 0.5;
+        opacity: 0.8;
     }
     .navbar .nav-link.active,
     .navbar .nav-link.active:hover {
         opacity: 1;
         color: var(--tertiary-color);
         background-color: transparent;
+    }
+    .navbar .nav-link.active::before,
+    .navbar .nav-link:hover::before {
+        content: '';
+        position: absolute;
+        border: 5px solid transparent;
+        border-bottom-color: var(--tertiary-color);
+        bottom: 0;
+        left: calc(50% - 2.5px);
+        animation: fadeDown 0.375s ease-in-out;
     }
     .user {
         width: 2.5rem;

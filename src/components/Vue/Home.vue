@@ -151,6 +151,7 @@
         background-color: var(--tertiary-color);
         color: var(--primary-color);
         font-weight: 500;
+        font-family: 'Nunito', sans-serif;
     }
     .introduction button:hover {
         opacity: 0.9;
@@ -206,10 +207,12 @@
     .pricing-header span {
         color: var(--tertiary-color);
         letter-spacing: 0.5px;
+        font-family: 'Nunito', sans-serif;
     }
     .pricing-header h3 {
-        font-weight: 600;
+        font-weight: 700;
         position: relative;
+        font-family: 'Nunito', sans-serif;
     }
     .pricing-header h3::before {
         content: '';
@@ -255,12 +258,15 @@
     }
     .pricing-item:first-child .price-label {
         color: var(--basic-color) !important;
+        font-family: 'Nunito', sans-serif;
     }
     .pricing-item:nth-child(2) .price-label {
         color: var(--premium-color) !important;
+        font-family: 'Nunito', sans-serif;
     }
     .pricing-item:last-child .price-label {
         color: var(--family-color) !important;
+        font-family: 'Nunito', sans-serif;
     }
     .price-amount {
         color: var(--secondary-color) !important;
@@ -268,7 +274,7 @@
     }
     .price-amount>span {
         color: var(--gray-color);
-        font-weight: 600;
+        font-family: 'Nunito', sans-serif;
     }
     .benifits {
         color: var(--dark-gray-color);
