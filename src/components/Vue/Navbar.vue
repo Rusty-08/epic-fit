@@ -2,6 +2,8 @@
     import { faUser, faUserSecret } from '@fortawesome/free-solid-svg-icons'
     import { ref, onMounted } from 'vue'
 
+    const activeLink = ref(sessionStorage.getItem('activePage'))
+
     let navlinks = [
         'HOME',
         'ABOUT US',
@@ -18,16 +20,16 @@
     const openPage = (index) => {
         window.scrollTo(0, 0)
         sessionStorage.setItem('activePage', index)
-    }
-
-    const getActiveLink = () => {
-        return sessionStorage.getItem('activePage')
+        activeLink.value = index
     };
 
 </script>
 
 <template>
-    <nav class="navbar fixed-top">
+    <nav 
+        class="navbar fixed-top"
+        :class="{ 'community-navbar': activeLink == 2 }"
+    >
         <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
             <a class="logo fs-5" href="">EPIC<span>FIT</span></a>
             <ul class="nav nav-pills d-flex gap-4" id="pills-tab" role="tablist">
@@ -39,7 +41,7 @@
                 >
                     <button 
                         class="nav-link px-0 fs-10" 
-                        :class="{ 'active': index == getActiveLink() || 0 }"
+                        :class="{ 'active': index == activeLink || 0 }"
                         :id="convertToLink(link)" 
                         data-bs-toggle="pill" 
                         :data-bs-target="`#${convertToLink(link)}-section`" 
@@ -67,6 +69,9 @@
         padding: 0 8%;
         transition: var(--transition-275s);
         overflow: hidden;
+    }
+    .community-navbar {
+        background-color: transparent;
     }
     .navbar-scrolled {
         height: 0;
@@ -105,7 +110,7 @@
         transition: var(--transition-175s);
     }
     .user:hover {
-        border-color: var(--gray-color);;
+        border-color: var(--gray-color);
         color: var(--secondary-color);
     }
 </style>
