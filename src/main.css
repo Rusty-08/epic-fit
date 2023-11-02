@@ -16,9 +16,9 @@
   --gray-light-color: #b5b3c3;
   --gray-dark-color: #413a31;
   --gray-color: #7f7d8e;
-  --basic-color: rgb(135, 206, 235);
-  --premium-color: rgb(215, 108, 108);
-  --family-color:  rgb(203, 170, 141);
+  --basic-color: rgb(127, 125, 142);
+  --premium-color: rgb(21, 19, 40);
+  --family-color:  rgb(255, 159, 62);
   --low-opacity-tertiary: rgba(255, 159, 62, 0.1);
   --low-opacity-secondary: rgba(21, 19, 40, 0.1);
   --header-height: 5rem;

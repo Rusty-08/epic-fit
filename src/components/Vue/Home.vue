@@ -14,7 +14,7 @@
         { 
             price: 19.99,
             label: 'Basic Membership',
-            description: 'Perfect for budget-conscious beginners and convenience-seekers, our Basic Membership is your ideal choice.',
+            description: "Our Basic Membership is an excellent option for budget-conscious beginners and those seeking convenience on the go. it's designed to elevate your experience.",
             benifits: [
                 'Full access to our gym during regular hours',
                 'Group fitness classes (limited)',
@@ -114,8 +114,8 @@
                     class="pricing-item card position-relative shadow-sm p-4 d-flex justify-content-start align-items-center"
                 >
                     <h4 class="price-amount px-3 border-bottom fs-2 fw-semibold d-flex align-items-center gap-1">{{ `$${price.price}` }} <span class="fs-6 fw-normal">/month</span></h4>
-                    <h4 class="price-label fs-6">{{ price.label }}</h4>
-                    <p class="fs-8 text-center pt-3 pb-2">{{ price.description }}</p>
+                    <h4 class="price-label fw-semibold fs-6">{{ price.label }}</h4>
+                    <p class="fs-8 text-center pt-2">{{ price.description }}</p>
                     <span class="benifits text-start w-100 fs-10 fw-semibold mb-1">What's Included:</span>
                     <ul class="w-100 px-2">
                         <li 
@@ -210,9 +210,9 @@
         font-family: 'Nunito', sans-serif;
     }
     .pricing-header h3 {
-        font-weight: 700;
+        font-weight: 600;
         position: relative;
-        font-family: 'Nunito', sans-serif;
+        font-size: clamp(1.3rem, 2vw, 1.7rem) !important;
     }
     .pricing-header h3::before {
         content: '';
@@ -245,16 +245,16 @@
         animation-delay: 300ms;
     }
     .pricing-item:first-child {
-        background-color: rgba(135, 206, 235, 0.1) !important;
+        background-color: rgba(127, 125, 142, 0.1) !important;
     }
     .pricing-item:nth-child(2) {
-        background-color: rgba(215, 108, 108, 0.1) !important;
+        background-color: rgba(21, 19, 40, 0.1) !important;
     }
     .pricing-item:nth-child(3) {
-        background-color: rgba(203, 170, 141, 0.1) !important;
+        background-color: rgba(255, 159, 62, 0.1) !important;
     }
     .pricing-item p {
-        color: var(--gray-dark-color) !important;
+        color: var(--secondary-color) !important;
     }
     .pricing-item:first-child .price-label {
         color: var(--basic-color) !important;
@@ -304,13 +304,13 @@
         transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.175);
     }
     .pricing-item:first-child .dumbbell {
-        color: rgba(135, 206, 235, 0.1) !important;
+        color: rgba(127, 125, 142, 0.1) !important;
     }
     .pricing-item:nth-child(2) .dumbbell {
-        color: rgba(215, 108, 108, 0.1) !important;
+        color: rgba(21, 19, 40, 0.1) !important;
     }
     .pricing-item:last-child .dumbbell {
-        color: rgba(203, 170, 141, 0.1) !important;
+        color: rgba(255, 159, 62, 0.1) !important;
     }
     .pricing-item:hover {
         transform: translateY(-1rem);
@@ -346,12 +346,7 @@
     .pricing-item:last-child:hover {
         background-color: var(--family-color) !important;
     }
-    .pricing-item:hover h4,
-    .pricing-item:hover span,
-    .pricing-item:hover p,
-    .pricing-item:hover li,
-    .pricing-item:hover li>svg,
-    .pricing-item:hover .price-label {
+    .pricing-item:hover :is(h4, span, p, li, li>svg, .price-label) {
         color: var(--primary-color) !important;
     }
     .pricing-item:hover .price-amount {

@@ -17,11 +17,11 @@
 
     const openPage = (index) => {
         window.scrollTo(0, 0)
-        localStorage.setItem('activePage', index)
+        sessionStorage.setItem('activePage', index)
     }
 
     const getActiveLink = () => {
-        return localStorage.getItem('activePage')
+        return sessionStorage.getItem('activePage')
     };
 
 </script>
@@ -39,7 +39,7 @@
                 >
                     <button 
                         class="nav-link px-0 fs-10" 
-                        :class="{ 'active': index == getActiveLink() }"
+                        :class="{ 'active': index == getActiveLink() || 0 }"
                         :id="convertToLink(link)" 
                         data-bs-toggle="pill" 
                         :data-bs-target="`#${convertToLink(link)}-section`" 
@@ -95,16 +95,6 @@
         opacity: 1;
         color: var(--tertiary-color);
         background-color: transparent;
-    }
-    .navbar .nav-link.active::before,
-    .navbar .nav-link:hover::before {
-        content: '';
-        position: absolute;
-        border: 5px solid transparent;
-        border-bottom-color: var(--tertiary-color);
-        bottom: 0;
-        left: calc(50% - 2.5px);
-        animation: fadeDown 0.375s ease-in-out;
     }
     .user {
         width: 2.5rem;

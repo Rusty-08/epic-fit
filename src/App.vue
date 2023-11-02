@@ -38,7 +38,7 @@
         )
         
         pages.forEach((page, index) => {
-          let activePage = localStorage.getItem('activePage')
+          let activePage = sessionStorage.getItem('activePage') || 0
           if (index == activePage) {
             page.classList.add('active')
             page.classList.add('show')
