@@ -7,6 +7,8 @@
     const activeIndex = ref(-1)
 
     const scrollAmount = ref(0)
+    const autoSlide = ref(null)
+    let isAutoSlide = true;
     
     const gallery = [
         { 
@@ -43,9 +45,26 @@
             (activeIndex.value + 1) % gallery.length
         )
         scrollAmount.value = -100 * activeIndex.value
-
-        console.log(4 % gallery.length)
+        
+        if (isAutoSlide) {
+            isAutoSlide = false
+        } else {
+            clearInterval(autoSlide.value)
+            setTimeout(() => {
+                autoSlide.value = setInterval(() => {
+                    isAutoSlide = true
+                    selectCategory(activeIndex.value)
+                }, 5000)
+            }, 10000)
+        }
     }
+
+    onMounted(() => {
+        autoSlide.value = setInterval(() => {
+            isAutoSlide = true
+            selectCategory(activeIndex.value)
+        }, 5000)
+    })
 
     const selectOnClick = () => {
         selectCategory(activeIndex.value)
@@ -57,8 +76,12 @@
     <div class="tab-pane px-0 position-relative fade" id="community-section" role="tabpanel" aria-labelledby="community" tabindex="0">
         <div class="community-landing pt-4 d-flex align-items-center justify-content-center">
             <div class="community-desc p-5 mt-5 h-50 rounded-2 d-flex align-items-start justify-content-start flex-column w-50">
-                <h4 class="mb-3 fw-semibold">{{ activeCaption || 'Our Mission and Values' }}</h4>
-                <p class="mb-0 fs-7">{{ activeDesc || 'At EPICFIT, our mission is to empower individuals to lead healthier, happier lives through exercise, nutrition, and a supportive community. Our core values drive everything we do.'  }}</p>
+                <transition name="h-fade">
+                    <h4 class="mb-3 fw-semibold" :key="activeCaption">{{ activeCaption || 'Our Mission and Values' }}</h4>
+                </transition>
+                <transition name="p-fade">
+                    <p class="mb-0 fs-7" :key="activeDesc">{{ activeDesc || 'At EPICFIT, our mission is to empower individuals to lead healthier, happier lives through exercise, nutrition, and a supportive community. Our core values drive everything we do.' }}</p>
+                </transition>
             </div>
             <div class="community-galler position-relative w-50 d-flex align-items-center justify-content-center">
                 <button 
@@ -75,14 +98,14 @@
                         class="image-catergory position-relative"
                         :style="{ transform: `translateX(${scrollAmount}%)` }"
                         :class="{ 'active': activeCaption == item.caption}"
-                        @click.prevent="selectCategory(index - 1)"
                         :key="index"
+                        @click.prevent="selectCategory(index - 1)"
                     >
                         <img :src="item.image" class="" alt="" draggable="false">
                         <div 
                             class="image-caption d-flex align-items-center justify-content-center w-100 pt-5 pb-3 px-0 position-absolute"
                         >
-                            <p class="mb-0 fs-10 text-center">{{ item.caption.toUpperCase() }}</p>
+                            <p class="mb-0 fs-9 text-center">{{ item.caption.toUpperCase() }}</p>
                         </div>
                     </a>
                 </div>
@@ -99,6 +122,18 @@
         height: 100dvh !important;
         padding-left: 8% !important;
         padding-right: 8% !important;
+    }
+    .community-desc {
+        animation: fadeRight 1s ease;
+    }
+    .community-galler {
+        animation: fadeLeft 1s ease;
+    }
+    .h-fade-enter-active {
+        animation: fadeUp 0.8s ease;
+    }
+    .p-fade-enter-active {
+        animation: fadeUp 1s ease;
     }
     .next-button {
         left: 3rem;
@@ -120,11 +155,10 @@
     }
     .image-slider {
         overflow: hidden;
-        width: 70vw;
     }
     .image-catergory {
-        height: 60vh;
-        width: 50%;
+        height: 70vh;
+        width: 25vw;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -135,13 +169,12 @@
     }
     .image-catergory img {
         height: 100%;
-        width: auto;
         overflow: hidden;
     }
     .image-catergory::before {
         content: '';
         position: absolute;
-        width: 0.25rem;
+        width: 0.5rem;
         height: 100%;
         background-color: var(--primary-color);
         right: 0;
@@ -155,7 +188,7 @@
     }
     .image-caption {
         bottom: 0;
-        right: 0.25rem;
+        right: 0.5rem;
         background: linear-gradient(to top, var(--secondary-color), transparent);
     }
     .image-catergory:last-child .image-caption {
@@ -165,8 +198,10 @@
         color: var(--primary-color) !important;
         font-weight: 500;
         letter-spacing: 0.5px;
+        opacity: 0;
     }
-    .image-catergory img {
-        height: 100%;
+    .image-catergory.active .image-caption p {
+        animation: fadeUp 0.8s ease-in-out;
+        opacity: 1;
     }
 </style>

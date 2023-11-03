@@ -43,7 +43,7 @@
                     :key="index"
                 >
                     <button 
-                        class="nav-link px-0 fs-10" 
+                        class="nav-link px-0 fs-11" 
                         :class="{ 'active': index == activeLink }"
                         :id="convertToLink(link)" 
                         data-bs-toggle="pill" 
