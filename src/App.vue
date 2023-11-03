@@ -41,7 +41,7 @@
           let activePage = sessionStorage.getItem('activePage') || 0
           if (index == activePage) {
             page.classList.add('active')
-            page.classList.add('show')
+            setTimeout(page.classList.add('show'), 0)
           }
         })
       })

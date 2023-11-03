@@ -21,15 +21,18 @@
         window.scrollTo(0, 0)
         sessionStorage.setItem('activePage', index)
         activeLink.value = index
-    };
+    }
+
+    onMounted(() => {
+        window.addEventListener('load', () => {
+            activeLink.value = sessionStorage.getItem('activePage') || 0
+        })
+    });
 
 </script>
 
 <template>
-    <nav 
-        class="navbar fixed-top"
-        :class="{ 'community-navbar': activeLink == 2 }"
-    >
+    <nav class="navbar fixed-top">
         <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
             <a class="logo fs-5" href="">EPIC<span>FIT</span></a>
             <ul class="nav nav-pills d-flex gap-4" id="pills-tab" role="tablist">
@@ -41,7 +44,7 @@
                 >
                     <button 
                         class="nav-link px-0 fs-10" 
-                        :class="{ 'active': index == activeLink || 0 }"
+                        :class="{ 'active': index == activeLink }"
                         :id="convertToLink(link)" 
                         data-bs-toggle="pill" 
                         :data-bs-target="`#${convertToLink(link)}-section`" 
@@ -69,9 +72,6 @@
         padding: 0 8%;
         transition: var(--transition-275s);
         overflow: hidden;
-    }
-    .community-navbar {
-        background-color: transparent;
     }
     .navbar-scrolled {
         height: 0;

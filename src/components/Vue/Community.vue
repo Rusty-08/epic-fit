@@ -1,13 +1,12 @@
 <script setup>
     import { ref, onMounted } from 'vue'
-    import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+    import { faArrowsRotate, faChevronLeft, faRotate } from '@fortawesome/free-solid-svg-icons'
 
     const activeCaption = ref('')
     const activeDesc = ref('')
     const activeIndex = ref(-1)
-    const activeImage = ref('')
 
-    const containerRef = ref(null)
+    const scrollAmount = ref(0)
     
     const gallery = [
         { 
@@ -36,69 +35,59 @@
         activeIndex.value = index
         activeCaption.value = gallery[activeIndex.value].caption
         activeDesc.value = gallery[activeIndex.value].desc
-        activeImage.value = gallery[activeIndex.value].image
     }
 
-    const selectCategory = () => {
-        activeIndex.value = (activeIndex.value + 1) % gallery.length
-        setAsActiveCategory(activeIndex.value)
-        setTimeout(scrollToActiveItem, 0)
+    const selectCategory = index => {
+        activeIndex.value = index
+        setAsActiveCategory(
+            (activeIndex.value + 1) % gallery.length
+        )
+        scrollAmount.value = -100 * activeIndex.value
+
+        console.log(4 % gallery.length)
     }
 
-    const scrollToActiveItem = () => {
-      if (containerRef.value) {
-        const activeItem = containerRef.value.children[activeIndex.value];
-        if (activeItem) {
-          containerRef.value.scrollTo({
-            left: activeItem.offsetLeft - containerRef.value.clientWidth / 4,
-            behavior: 'smooth',
-          });
-        }
-      }
-    }
-
-    onMounted(() => {
-        scrollToActiveItem()
-    });
+    const selectOnClick = () => {
+        selectCategory(activeIndex.value)
+    };
     
 </script>
 
 <template>
     <div class="tab-pane px-0 position-relative fade" id="community-section" role="tabpanel" aria-labelledby="community" tabindex="0">
         <div class="community-landing pt-4 d-flex align-items-center justify-content-center">
-            <div :class="{ 'selected-category': activeImage !== '' }" class="community-desc p-5 rounded-2 d-flex align-items-start justify-content-start flex-column w-50">
+            <div class="community-desc p-5 mt-5 h-50 rounded-2 d-flex align-items-start justify-content-start flex-column w-50">
                 <h4 class="mb-3 fw-semibold">{{ activeCaption || 'Our Mission and Values' }}</h4>
                 <p class="mb-0 fs-7">{{ activeDesc || 'At EPICFIT, our mission is to empower individuals to lead healthier, happier lives through exercise, nutrition, and a supportive community. Our core values drive everything we do.'  }}</p>
             </div>
             <div class="community-galler position-relative w-50 d-flex align-items-center justify-content-center">
                 <button 
                     class="next-button btn position-absolute"
-                    @click.prevent="selectCategory()"
+                    @click.prevent="selectOnClick()"
                 >
-                    <icon :icon="faChevronLeft" />
+                    <icon v-if="activeIndex !== 3" :icon="faChevronLeft" class="fs-6" />
+                    <icon v-else :icon="faArrowsRotate" class="fs-6" />
                 </button>
-                <div 
-                    class="image-slider d-flex gap-3 position-absolute" 
-                    ref="containerRef"
-                >
+                <div class="image-slider d-flex position-absolute" >
                     <a  
                         href=""
                         v-for="(item, index) in gallery"
                         class="image-catergory position-relative"
+                        :style="{ transform: `translateX(${scrollAmount}%)` }"
                         :class="{ 'active': activeCaption == item.caption}"
-                        @click.prevent="() => { setAsActiveCategory(index); scrollToActiveItem(); }"
+                        @click.prevent="selectCategory(index - 1)"
+                        :key="index"
                     >
                         <img :src="item.image" class="" alt="" draggable="false">
                         <div 
-                            class="image-caption d-flex align-items-center justify-content-center w-100 pt-5 pb-3 position-absolute"
+                            class="image-caption d-flex align-items-center justify-content-center w-100 pt-5 pb-3 px-0 position-absolute"
                         >
-                            <p class="mb-0 fs-10">{{ item.caption.toUpperCase() }}</p>
+                            <p class="mb-0 fs-10 text-center">{{ item.caption.toUpperCase() }}</p>
                         </div>
                     </a>
                 </div>
             </div>
         </div>
-        <img :src="activeImage" class="activeBackground position-absolute" alt="">
     </div>
 </template>
 
@@ -111,46 +100,54 @@
         padding-left: 8% !important;
         padding-right: 8% !important;
     }
-    .activeBackground {
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        filter: blur(5px);
-        width: 100vw;
-        z-index: -1;
-        top: 0;
-    }
     .next-button {
         left: 3rem;
         width: 3rem;
         height: 3rem;
         border-radius: 50%;
-        background-color: rgba(127, 125, 142, 0.3);
-        color: var(--secondary-color);
+        background-color: rgba(127, 125, 142, 0.1);
+        color: var(--tertiary-color);
         transition: var(--transition-175s);
     }
-    .next-button:hover {
-        background-color: var(--gray-light-color);
-        color: var(--primary-color);
+    .next-button:hover,
+    .next-button:active {
+        background-color: rgba(127, 125, 142, 0.2);
+        color: var(--tertiary-color);
+        border-color: transparent;
     }
     .image-slider {
         left: 8rem;
-        width: 160%;
     }
     .image-slider {
-      overflow: hidden;
-    }
-
-    .image-slider::-webkit-scrollbar {
-      display: none;
+        overflow: hidden;
+        width: 70vw;
     }
     .image-catergory {
         height: 60vh;
         width: 50%;
-        background-size: contain;
+        background-size: cover;
+        background-position: center;
         background-repeat: no-repeat;
+        text-decoration: none !important;
+        border: none;
+        overflow: hidden !important;
+        transition: var(--transition-375s)
+    }
+    .image-catergory img {
+        height: 100%;
+        width: auto;
         overflow: hidden;
-        transition: var(--transition-175s)
+    }
+    .image-catergory::before {
+        content: '';
+        position: absolute;
+        width: 0.25rem;
+        height: 100%;
+        background-color: var(--primary-color);
+        right: 0;
+    }
+    .image-catergory:last-child::before {
+        width: 0;
     }
     .image-catergory.active p,
     .image-catergory:hover p {
@@ -158,7 +155,11 @@
     }
     .image-caption {
         bottom: 0;
+        right: 0.25rem;
         background: linear-gradient(to top, var(--secondary-color), transparent);
+    }
+    .image-catergory:last-child .image-caption {
+        right: 0;
     }
     .image-caption p {
         color: var(--primary-color) !important;
@@ -167,11 +168,5 @@
     }
     .image-catergory img {
         height: 100%;
-    }
-    .selected-category {
-        background-color: rgba(21, 19, 40, 0.5);
-    }
-    .selected-category :is(h4, p) {
-        color: var(--primary-color) !important;
     }
 </style>
