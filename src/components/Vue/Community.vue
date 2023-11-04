@@ -1,13 +1,15 @@
 <script setup>
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted, computed, onUnmounted, onBeforeUnmount } from 'vue'
     import { faArrowsRotate, faChevronLeft, faRotate } from '@fortawesome/free-solid-svg-icons'
+
+    // const activePage = ref(sessionStorage.getItem('activePage'))
 
     const activeCaption = ref('')
     const activeDesc = ref('')
     const activeIndex = ref(-1)
 
     const scrollAmount = ref(0)
-    const autoSlide = ref(null)
+    let autoSlide
     let isAutoSlide = true;
     
     const gallery = [
@@ -41,30 +43,28 @@
 
     const selectCategory = index => {
         activeIndex.value = index
-        setAsActiveCategory(
-            (activeIndex.value + 1) % gallery.length
-        )
+        setAsActiveCategory((activeIndex.value + 1) % gallery.length)
         scrollAmount.value = -100 * activeIndex.value
         
         if (isAutoSlide) {
             isAutoSlide = false
         } else {
-            clearInterval(autoSlide.value)
+            clearInterval(autoSlide)
             setTimeout(() => {
-                autoSlide.value = setInterval(() => {
+                autoSlide = setInterval(() => {
                     isAutoSlide = true
                     selectCategory(activeIndex.value)
                 }, 5000)
             }, 10000)
         }
     }
-
-    onMounted(() => {
-        autoSlide.value = setInterval(() => {
+    
+    const enableAutoSlide = () => {
+        autoSlide = setInterval(() => {
             isAutoSlide = true
             selectCategory(activeIndex.value)
         }, 5000)
-    })
+    }
 
     const selectOnClick = () => {
         selectCategory(activeIndex.value)
@@ -73,9 +73,16 @@
 </script>
 
 <template>
-    <div class="tab-pane px-0 position-relative fade" id="community-section" role="tabpanel" aria-labelledby="community" tabindex="0">
+    <div 
+        @mouseenter="enableAutoSlide"
+        class="tab-pane px-0 position-relative fade active show" 
+        id="community-section" 
+        role="tabpanel" 
+        aria-labelledby="community" 
+        tabindex="0"
+    >
         <div class="community-landing pt-4 d-flex align-items-center justify-content-center">
-            <div class="community-desc p-5 mt-5 h-50 rounded-2 d-flex align-items-start justify-content-start flex-column w-50">
+            <div :class="{ 'community-desc': activeCaption == '' }" class="p-5 mt-5 h-50 rounded-2 d-flex align-items-start justify-content-start flex-column w-50">
                 <transition name="h-fade">
                     <h4 class="mb-3 fw-semibold" :key="activeCaption">{{ activeCaption || 'Our Mission and Values' }}</h4>
                 </transition>
@@ -83,7 +90,7 @@
                     <p class="mb-0 fs-7" :key="activeDesc">{{ activeDesc || 'At EPICFIT, our mission is to empower individuals to lead healthier, happier lives through exercise, nutrition, and a supportive community. Our core values drive everything we do.' }}</p>
                 </transition>
             </div>
-            <div class="community-galler position-relative w-50 d-flex align-items-center justify-content-center">
+            <div :class="{ 'community-galler': activeCaption == '' }" class="position-relative w-50 d-flex align-items-center justify-content-center">
                 <button 
                     class="next-button btn position-absolute"
                     @click.prevent="selectOnClick()"
@@ -102,9 +109,7 @@
                         @click.prevent="selectCategory(index - 1)"
                     >
                         <img :src="item.image" class="" alt="" draggable="false">
-                        <div 
-                            class="image-caption d-flex align-items-center justify-content-center w-100 pt-5 pb-3 px-0 position-absolute"
-                        >
+                        <div class="image-caption d-flex align-items-center justify-content-center w-100 pt-5 pb-3 px-0 position-absolute">
                             <p class="mb-0 fs-9 text-center">{{ item.caption.toUpperCase() }}</p>
                         </div>
                     </a>
@@ -201,7 +206,7 @@
         opacity: 0;
     }
     .image-catergory.active .image-caption p {
-        animation: fadeUp 0.8s ease-in-out;
+        animation: fadeUp 0.8s ease;
         opacity: 1;
     }
 </style>

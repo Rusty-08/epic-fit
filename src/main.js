@@ -1,22 +1,18 @@
 import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
 
 import './main.css'
-
-// BOOTSTRAP
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
-import App from './App.vue'
-
-// FONTAWESOME
-import { library } from '@fortawesome/fontawesome-svg-core'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { MotionPlugin } from '@vueuse/motion'
 
-library.add(faUserSecret)
+const app = createApp(App)
 
-const app = createApp(App);
+app.component('icon', FontAwesomeIcon)
 
-app.component('icon', FontAwesomeIcon);
+app.use(MotionPlugin)
+app.use(router)
 
-app.mount('#app');
+app.mount('#app')

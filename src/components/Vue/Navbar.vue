@@ -2,13 +2,13 @@
     import { faUser, faUserSecret } from '@fortawesome/free-solid-svg-icons'
     import { ref, onMounted } from 'vue'
 
-    const activeLink = ref(sessionStorage.getItem('activePage'))
-
+    const activeLink = ref('HOME')
+    
     let navlinks = [
-        'HOME',
-        'ABOUT US',
-        'COMMUNITY',
-        'CONTACT US'
+        'Home',
+        'About Us',
+        'Community',
+        'Contact Us'
     ]
 
     const convertToLink = e => {
@@ -17,17 +17,9 @@
         return link
     }
 
-    const openPage = (index) => {
-        window.scrollTo(0, 0)
-        sessionStorage.setItem('activePage', index)
-        activeLink.value = index
-    }
-
-    onMounted(() => {
-        window.addEventListener('load', () => {
-            activeLink.value = sessionStorage.getItem('activePage') || 0
-        })
-    });
+    const setActiveLink = (link) => {
+        activeLink.value = link
+    };
 
 </script>
 
@@ -42,20 +34,20 @@
                     v-for="(link, index) in navlinks"
                     :key="index"
                 >
-                    <button 
-                        class="nav-link px-0 fs-11" 
-                        :class="{ 'active': index == activeLink }"
-                        :id="convertToLink(link)" 
-                        data-bs-toggle="pill" 
-                        :data-bs-target="`#${convertToLink(link)}-section`" 
-                        type="button" 
-                        role="tab" 
+                    <router-link
+                        :to="link === 'Home' ? '/' : `/${convertToLink(link)}`"
+                        class="nav-link px-0 fs-8"
+                        :class="{ 
+                            'active': $route.path === '/'
+                            && link === 'Home' 
+                            || $route.path === `/${convertToLink(link)}`
+                        }"
+                        role="tab"
                         :aria-controls="`${convertToLink(link)}-section`" 
-                        :aria-selected="link == 'Home' ? true : false"
-                        @click="openPage(index)"
+                        :aria-selected="link === 'Home'"
                     >
                         {{ link }}
-                    </button>
+                    </router-link>
                 </li>
             </ul>
             <button class="user btn">

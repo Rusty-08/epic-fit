@@ -3,6 +3,7 @@
     import { faCheck, faCheckDouble, faDumbbell } from '@fortawesome/free-solid-svg-icons'
 
     const currentMember = ref('')
+    const animated = ref(false)
 
     let profiles = [
         { image: '/img/image1.svg', name: 'Jonny Sins' },
@@ -58,23 +59,26 @@
 
     onBeforeUnmount(() => {
         clearInterval(timer)
+        window.scrollTo(0, 0)
     })
 
     onMounted(() => {
         displayCurrentMembers()
         timer = setInterval(displayCurrentMembers, 3000)
+        setTimeout(() => animated.value = true, 2000)
     });
     
 </script>
 
 <template>
-    <div class="tab-pane fade show active" id="home-section" role="tabpanel" aria-labelledby="home" tabindex="0">
+    <div class="tab-pane fade active show" id="home-section" role="tabpanel" aria-labelledby="home" tabindex="0">
         <div class="home-landing container pt-5 px-0 d-flex">
             <div 
-                class="introduction animated w-50 d-flex align-items-start justify-content-center flex-column"
+                :class="{ 'animated': animated }" 
+                class="introduction w-50 d-flex align-items-start justify-content-center flex-column"
             >
                 <h1 class="fw-bold mb-0">Unleash your Inner <span>Strength</span></h1>
-                <p class="my-3 pe-5">Achieve your fitness goals, and embrace a healthier you with our state-of-the-art facilities, expert trainers, and a supportive community that's with you every step of the way.</p>
+                <p class="home-desc my-3 pe-5">Achieve your fitness goals, and embrace a healthier you with our state-of-the-art facilities, expert trainers, and a supportive community that's with you every step of the way.</p>
                 <button class="btn px-5 mt-3 py-2 fs-6">Join Now</button>
                 <div 
                     class="current-members mt-5"
@@ -90,7 +94,8 @@
             </div>
             <div class="d-flex w-50 align-items-center justify-content-center">
                 <div 
-                    class="home-images animated position-relative d-flex align-items-center justify-content-center"
+                    :class="{ 'animated': animated }"
+                    class="home-images position-relative d-flex align-items-center justify-content-center"
                 >
                     <img src="/img/Polygon1.svg" class="polygon position-absolute" alt="">
                     <img src="/img/dumbell1.svg" class="dumbell-one position-absolute" alt="">
@@ -100,16 +105,17 @@
             </div>               
         </div>
         <div class="pricing py-4 container">
-            <div class="pricing-header animated d-flex align-items-center justify-content-center flex-column">
-                <span class="fs-7 mb-1">PRICING</span>
-                <h3>Membership Options</h3>
+            <div class="pricing-header d-flex align-items-center justify-content-center flex-column">
+                <span v-motion-slide-visible-once-bottom class="fs-7 mb-1">PRICING</span>
+                <h3 v-motion-slide-visible-once-bottom >Membership Options</h3>
             </div>
             <div 
-                class="pricing-category animated my-5 d-flex flex-lg-row flex-column align-items-center justify-content-evenly"
+                class="pricing-category my-5 d-flex flex-lg-row flex-column align-items-center justify-content-evenly"
             >
                 <a  
                     href=""
                     @click.prevent=""
+                    v-motion-slide-visible-once-left
                     v-for="price in pricing"
                     class="pricing-item card position-relative shadow-sm p-4 d-flex justify-content-start align-items-center"
                 >
@@ -137,11 +143,18 @@
     .home-landing {
         height: 100dvh;
     }
-    .introduction {
-        animation: fadeRight 1s ease-in;
-    }
     .introduction h1 {
         font-size: clamp(2rem, 5vw, 4rem);
+        animation: fadeUp 0.8s ease;
+    }
+    .introduction .home-desc {
+        animation: fadeUp 1s ease;
+    }
+    .introduction button {
+        animation: fadeUp 1.2s ease;
+    }
+    .introduction .current-members {
+        animation: fadeUp 1.4s ease;
     }
     .introduction h1>span {
         color: var(--tertiary-color);
@@ -155,9 +168,6 @@
     }
     .introduction button:hover {
         opacity: 0.9;
-    }
-    .current-members {
-        animation: fadeUp 1s ease-in;
     }
     .current-members img {
         width: 1.5rem;
@@ -177,14 +187,12 @@
     }
     .home-images .polygon {
         width: 25rem;
-        animation: rotateFade 1s ease-in;
-        animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.2);
+        animation: rotateFade 1.6s ease;
     }
     .home-images .person {
         width: 25rem;
         z-index: 10;
-        animation: fadeLeft 1s ease-in;
-        animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.2);
+        animation: fadeLeft 1s ease;
     }
     .dumbell-one,
     .dumbell-two {
@@ -193,25 +201,27 @@
     .dumbell-one {
         bottom: 0;
         left: -7rem;
-        animation: fadeUp 1s ease-in;
+        animation: fadeUp 1.4s ease;
     }
     .dumbell-two {
         bottom: 5rem;
         right: -5rem;
-        animation: fadeLeft 1s ease-in;
+        animation: fadeLeft 1.2s ease;
     }
-    .pricing-header.show {
-        animation-delay: 200ms;
-        animation: fadeUp 1s ease-in;
+    .introduction.animated :is(h1, p, button, .current-members),
+    .home-images.animated img {
+        animation: none;
     }
     .pricing-header span {
         color: var(--tertiary-color);
         letter-spacing: 0.5px;
         font-family: 'Nunito', sans-serif;
+        transition: 0.3s ease;
     }
     .pricing-header h3 {
         font-weight: 600;
         position: relative;
+        transition: 0.3s ease;
         font-size: clamp(1.3rem, 2vw, 1.7rem) !important;
     }
     .pricing-header h3::before {
@@ -231,26 +241,17 @@
         padding: 2.5rem 1.5rem !important;
         border: none;
         backdrop-filter: blur(10px);
-        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.175);
-    }
-    .pricing-category.show .pricing-item {
-        animation: fadeRight 1.5s ease;
-        animation-delay: 100ms;
-        animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.1);
-    }
-    .pricing-category.show .pricing-item:nth-child(2) {
-        animation-delay: 200ms;
-    }
-    .pricing-category.show .pricing-item:nth-child(3) {
-        animation-delay: 300ms;
     }
     .pricing-item:first-child {
+        transition: 0.5s ease;
         background-color: rgba(127, 125, 142, 0.1) !important;
     }
     .pricing-item:nth-child(2) {
+        transition: 0.8s ease;
         background-color: rgba(21, 19, 40, 0.1) !important;
     }
     .pricing-item:nth-child(3) {
+        transition: 1s ease;
         background-color: rgba(255, 159, 62, 0.1) !important;
     }
     .pricing-item p {
