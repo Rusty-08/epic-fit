@@ -3,9 +3,9 @@
 </script>
 
 <template>
-    <div class="tab-pane fade" id="contact-us-section" role="tabpanel" aria-labelledby="contact-us" tabindex="0">
+    <section id="contact-us-section">
         <h2>CONTACT</h2>
-    </div>
+    </section>
 </template>
 
 <style scoped>

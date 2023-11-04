@@ -20,9 +20,7 @@
 
 <template>
   <Navbar />
-  <main class="tab-content">
-    <RouterView />
-  </main>
+  <RouterView />
 </template>
 
 <style scoped>

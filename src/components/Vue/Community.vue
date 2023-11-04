@@ -7,8 +7,8 @@
     const activeCaption = ref('')
     const activeDesc = ref('')
     const activeIndex = ref(-1)
-
     const scrollAmount = ref(0)
+
     let autoSlide
     let isAutoSlide = true;
     
@@ -45,26 +45,16 @@
         activeIndex.value = index
         setAsActiveCategory((activeIndex.value + 1) % gallery.length)
         scrollAmount.value = -100 * activeIndex.value
-        
-        if (isAutoSlide) {
-            isAutoSlide = false
-        } else {
-            clearInterval(autoSlide)
-            setTimeout(() => {
-                autoSlide = setInterval(() => {
-                    isAutoSlide = true
-                    selectCategory(activeIndex.value)
-                }, 5000)
-            }, 10000)
-        }
     }
     
-    const enableAutoSlide = () => {
-        autoSlide = setInterval(() => {
-            isAutoSlide = true
-            selectCategory(activeIndex.value)
+    onMounted(() => {
+        setTimeout(() => {
+            autoSlide = setInterval(() => {
+                isAutoSlide = true
+                selectCategory(activeIndex.value)
+            }, 5000)
         }, 5000)
-    }
+    })
 
     const selectOnClick = () => {
         selectCategory(activeIndex.value)
@@ -73,24 +63,17 @@
 </script>
 
 <template>
-    <div 
-        @mouseenter="enableAutoSlide"
-        class="tab-pane px-0 position-relative fade active show" 
-        id="community-section" 
-        role="tabpanel" 
-        aria-labelledby="community" 
-        tabindex="0"
-    >
+    <section id="community-section">
         <div class="community-landing pt-4 d-flex align-items-center justify-content-center">
-            <div :class="{ 'community-desc': activeCaption == '' }" class="p-5 mt-5 h-50 rounded-2 d-flex align-items-start justify-content-start flex-column w-50">
+            <div :class="{ 'initial': activeCaption == '' }" class="h-25 pt-2 rounded-2 d-flex align-items-start justify-content-start flex-column w-50">
                 <transition name="h-fade">
-                    <h4 class="mb-3 fw-semibold" :key="activeCaption">{{ activeCaption || 'Our Mission and Values' }}</h4>
+                    <h4 class="caption mb-3 fw-semibold" :key="activeCaption">{{ activeCaption || 'Our Mission and Values' }}</h4>
                 </transition>
                 <transition name="p-fade">
-                    <p class="mb-0 fs-7" :key="activeDesc">{{ activeDesc || 'At EPICFIT, our mission is to empower individuals to lead healthier, happier lives through exercise, nutrition, and a supportive community. Our core values drive everything we do.' }}</p>
+                    <p class="desc mb-0 fs-7" :key="activeDesc">{{ activeDesc || 'At EPICFIT, our mission is to empower individuals to lead healthier, happier lives through exercise, nutrition, and a supportive community. Our core values drive everything we do.' }}</p>
                 </transition>
             </div>
-            <div :class="{ 'community-galler': activeCaption == '' }" class="position-relative w-50 d-flex align-items-center justify-content-center">
+            <div class="gallery-wrapper position-relative w-50 d-flex align-items-center justify-content-center">
                 <button 
                     class="next-button btn position-absolute"
                     @click.prevent="selectOnClick()"
@@ -102,7 +85,7 @@
                     <a  
                         href=""
                         v-for="(item, index) in gallery"
-                        class="image-catergory position-relative"
+                        class="image-catergory shadow-sm position-relative"
                         :style="{ transform: `translateX(${scrollAmount}%)` }"
                         :class="{ 'active': activeCaption == item.caption}"
                         :key="index"
@@ -116,7 +99,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <style scoped>
@@ -125,20 +108,21 @@
     }
     .community-landing {
         height: 100dvh !important;
-        padding-left: 8% !important;
-        padding-right: 8% !important;
     }
-    .community-desc {
-        animation: fadeRight 1s ease;
+    .initial .caption {
+        animation: fadeUp 0.8s ease;
     }
-    .community-galler {
-        animation: fadeLeft 1s ease;
+    .initial .desc {
+        animation: fadeUp 1s ease;
     }
     .h-fade-enter-active {
         animation: fadeUp 0.8s ease;
     }
     .p-fade-enter-active {
         animation: fadeUp 1s ease;
+    }
+    .gallery-wrapper {
+        animation: fadeLeft 1s ease;
     }
     .next-button {
         left: 3rem;
@@ -151,9 +135,9 @@
     }
     .next-button:hover,
     .next-button:active {
-        background-color: rgba(127, 125, 142, 0.2);
-        color: var(--tertiary-color);
-        border-color: transparent;
+        background-color: rgba(127, 125, 142, 0.2) !important;
+        color: var(--tertiary-color) !important;
+        border-color: transparent !important;
     }
     .image-slider {
         left: 8rem;
@@ -168,7 +152,6 @@
         background-position: center;
         background-repeat: no-repeat;
         text-decoration: none !important;
-        border: none;
         overflow: hidden !important;
         transition: var(--transition-375s)
     }

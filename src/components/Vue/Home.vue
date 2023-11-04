@@ -65,20 +65,17 @@
     onMounted(() => {
         displayCurrentMembers()
         timer = setInterval(displayCurrentMembers, 3000)
-        setTimeout(() => animated.value = true, 2000)
+        setTimeout(() => animated.value = true, 1400) 
     });
     
 </script>
 
 <template>
-    <div class="tab-pane fade active show" id="home-section" role="tabpanel" aria-labelledby="home" tabindex="0">
+    <section id="home-section">
         <div class="home-landing container pt-5 px-0 d-flex">
-            <div 
-                :class="{ 'animated': animated }" 
-                class="introduction w-50 d-flex align-items-start justify-content-center flex-column"
-            >
+            <div class="introduction w-50 d-flex align-items-start justify-content-center flex-column">
                 <h1 class="fw-bold mb-0">Unleash your Inner <span>Strength</span></h1>
-                <p class="home-desc my-3 pe-5">Achieve your fitness goals, and embrace a healthier you with our state-of-the-art facilities, expert trainers, and a supportive community that's with you every step of the way.</p>
+                <p class="home-desc mt-3 pe-5 fs-7">Achieve your fitness goals, and embrace a healthier you with our state-of-the-art facilities, expert trainers, and a supportive community that's with you every step of the way.</p>
                 <button class="btn px-5 mt-3 py-2 fs-6">Join Now</button>
                 <div 
                     class="current-members mt-5"
@@ -89,14 +86,14 @@
                         :key="index" 
                         :src="item.image"
                     >
-                    <p class="fs-8 d-inline"><span>{{ currentMember }}</span> and 1,000 + other joined the community</p>
+                    <p class="fs-8 d-inline">
+                        <span>{{ currentMember }}</span>
+                        and 1,000 + other joined the community
+                    </p>
                 </div>
             </div>
             <div class="d-flex w-50 align-items-center justify-content-center">
-                <div 
-                    :class="{ 'animated': animated }"
-                    class="home-images position-relative d-flex align-items-center justify-content-center"
-                >
+                <div :class="{ 'animated': animated }" class="home-images position-relative d-flex align-items-center justify-content-center">
                     <img src="/img/Polygon1.svg" class="polygon position-absolute" alt="">
                     <img src="/img/dumbell1.svg" class="dumbell-one position-absolute" alt="">
                     <img src="/img/dumbell2.svg" class="dumbell-two position-absolute" alt="">
@@ -110,7 +107,7 @@
                 <h3 v-motion-slide-visible-once-bottom >Membership Options</h3>
             </div>
             <div 
-                class="pricing-category my-5 d-flex flex-lg-row flex-column align-items-center justify-content-evenly"
+                class="pricing-category my-5 d-flex flex-lg-row flex-column align-items-center justify-content-between"
             >
                 <a  
                     href=""
@@ -136,7 +133,7 @@
                 </a>
             </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <style scoped>
@@ -144,7 +141,7 @@
         height: 100dvh;
     }
     .introduction h1 {
-        font-size: clamp(2rem, 5vw, 4rem);
+        font-size: clamp(2rem, 5vw, 3.8rem);
         animation: fadeUp 0.8s ease;
     }
     .introduction .home-desc {
@@ -158,6 +155,7 @@
     }
     .introduction h1>span {
         color: var(--tertiary-color);
+        animation-delay: 1s;
     }
     .introduction button,
     .introduction button:active {
@@ -179,6 +177,9 @@
     .current-members img:nth-child(3) {
         transform: translateX(-1rem);
     }
+    .animated img {
+        animation: none;
+    }
     .current-members p {
         color: var(--gray-light-color) !important;
     }
@@ -186,17 +187,17 @@
         color: var(--gray-color);
     }
     .home-images .polygon {
-        width: 25rem;
-        animation: rotateFade 1.6s ease;
+        width: 23rem;
+        animation: rotateFade 1.4s ease;
     }
     .home-images .person {
-        width: 25rem;
+        width: 22rem;
         z-index: 10;
         animation: fadeLeft 1s ease;
     }
     .dumbell-one,
     .dumbell-two {
-        width: 10rem;
+        width: 8rem;
     }
     .dumbell-one {
         bottom: 0;
@@ -208,20 +209,16 @@
         right: -5rem;
         animation: fadeLeft 1.2s ease;
     }
-    .introduction.animated :is(h1, p, button, .current-members),
-    .home-images.animated img {
-        animation: none;
-    }
     .pricing-header span {
         color: var(--tertiary-color);
         letter-spacing: 0.5px;
         font-family: 'Nunito', sans-serif;
-        transition: 0.3s ease;
+        transition: 0.5s ease;
     }
     .pricing-header h3 {
         font-weight: 600;
         position: relative;
-        transition: 0.3s ease;
+        transition: 0.5s ease;
         font-size: clamp(1.3rem, 2vw, 1.7rem) !important;
     }
     .pricing-header h3::before {

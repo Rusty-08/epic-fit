@@ -1,8 +1,6 @@
 <script setup>
     import { faUser, faUserSecret } from '@fortawesome/free-solid-svg-icons'
     import { ref, onMounted } from 'vue'
-
-    const activeLink = ref('HOME')
     
     let navlinks = [
         'Home',
@@ -17,8 +15,8 @@
         return link
     }
 
-    const setActiveLink = (link) => {
-        activeLink.value = link
+    const navitageToTop = () => {
+        window.scrollTo(0, 0)
     };
 
 </script>
@@ -27,10 +25,9 @@
     <nav class="navbar fixed-top">
         <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
             <a class="logo fs-5" href="">EPIC<span>FIT</span></a>
-            <ul class="nav nav-pills d-flex gap-4" id="pills-tab" role="tablist">
+            <ul class="nav d-flex gap-4">
                 <li 
                     class="nav-item" 
-                    role="presentation"
                     v-for="(link, index) in navlinks"
                     :key="index"
                 >
@@ -42,9 +39,7 @@
                             && link === 'Home' 
                             || $route.path === `/${convertToLink(link)}`
                         }"
-                        role="tab"
-                        :aria-controls="`${convertToLink(link)}-section`" 
-                        :aria-selected="link === 'Home'"
+                        @click="navitageToTop"
                     >
                         {{ link }}
                     </router-link>
@@ -61,7 +56,7 @@
     .navbar {
         background-color: var(--primary-color);
         height: var(--header-height);
-        padding: 0 8%;
+        padding: 0 10%;
         transition: var(--transition-275s);
         overflow: hidden;
     }

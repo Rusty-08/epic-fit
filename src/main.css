@@ -47,9 +47,9 @@ a {
   text-decoration: none !important;
 }
 
-.tab-content .tab-pane {
+#app :is(#home-section, #community-section, #contact-us-section) {
   min-height: 100dvh !important;
-  padding: 0 8% !important;
+  padding: 0 10% !important;
 }
 
 .fs-7 {
@@ -100,11 +100,11 @@ a {
   from {
     opacity: 0;
     width: 0rem;
-    transform: rotate(120deg)
+    transform: rotate(90deg)
   }
   to {
     opacity: 1;
-    width: 25rem;
+    width: 23rem;
     transform: rotate(0)
   }
 }
@@ -153,13 +153,11 @@ a {
   }
 }
 
-@keyframes switchTab {
+@keyframes fade {
   from {
     opacity: 0;
-    transform: translateY(1rem);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
