@@ -1,6 +1,26 @@
 <script setup>
+    // import { useScroll } from '@vueuse/core';
     import { faUser, faUserSecret } from '@fortawesome/free-solid-svg-icons'
     import { ref, onMounted } from 'vue'
+
+    const isScrolledDown = ref(false)
+    let prevScrollY = ref(0)
+    let scrollDifference = ref(0)
+
+    onMounted(() => {
+        prevScrollY.value = window.scrollY
+        window.addEventListener('scroll', handleScroll)
+    })
+
+    const handleScroll = () => {
+        const currentScrollY = window.scrollY
+        if (currentScrollY > prevScrollY.value) {
+            isScrolledDown.value = true
+        } else {
+            isScrolledDown.value = false
+        }
+        prevScrollY.value = currentScrollY
+    }
     
     let navlinks = [
         'Home',
@@ -22,7 +42,7 @@
 </script>
 
 <template>
-    <nav class="navbar fixed-top">
+    <nav :class="{ 'scrolled-down shadow-sm': isScrolledDown }" class="navbar fixed-top">
         <div class="container-fluid px-0 d-flex align-items-center justify-content-between">
             <a class="logo fs-5" href="">EPIC<span>FIT</span></a>
             <ul class="nav d-flex gap-4">
@@ -34,11 +54,7 @@
                     <router-link
                         :to="link === 'Home' ? '/' : `/${convertToLink(link)}`"
                         class="nav-link px-0 fs-8"
-                        :class="{ 
-                            'active': $route.path === '/'
-                            && link === 'Home' 
-                            || $route.path === `/${convertToLink(link)}`
-                        }"
+                        :class="{ 'active': link === 'Home' && $route.path === '/' || $route.path === `/${convertToLink(link)}`}"
                         @click="navitageToTop"
                     >
                         {{ link }}
@@ -57,11 +73,11 @@
         background-color: var(--primary-color);
         height: var(--header-height);
         padding: 0 10%;
-        transition: var(--transition-275s);
+        transition: var(--transition-375s);
         overflow: hidden;
     }
-    .navbar-scrolled {
-        height: 0;
+    .scrolled-down {
+        top: calc(-1 * var(--header-height));
     }
     .navbar .logo {
         color: var(--dark-color);
@@ -79,13 +95,13 @@
         font-weight: 500;
     }
     .navbar .nav-link:hover {
-        color: var(--tertiary-color);
+        color: var(--tertiary-color) !important;
         opacity: 0.8;
     }
     .navbar .nav-link.active,
     .navbar .nav-link.active:hover {
         opacity: 1;
-        color: var(--tertiary-color);
+        color: var(--tertiary-color) !important;
         background-color: transparent;
     }
     .user {
@@ -97,7 +113,7 @@
         transition: var(--transition-175s);
     }
     .user:hover {
-        border-color: var(--gray-color);
-        color: var(--secondary-color);
+        border-color: var(--gray-color) !important;
+        color: var(--secondary-color) !important;
     }
 </style>

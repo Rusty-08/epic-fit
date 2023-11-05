@@ -1,6 +1,10 @@
 <script setup>
+    import { useTitle } from '@vueuse/core'
     import { ref, onMounted, computed, onUnmounted, onBeforeUnmount } from 'vue'
     import { faArrowsRotate, faChevronLeft, faRotate } from '@fortawesome/free-solid-svg-icons'
+
+    const title = useTitle()
+    title.value = 'Community - EPICFIT';
 
     // const activePage = ref(sessionStorage.getItem('activePage'))
 

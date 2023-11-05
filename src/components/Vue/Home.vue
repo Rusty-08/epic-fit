@@ -1,6 +1,10 @@
 <script setup>
+    import { useTitle } from '@vueuse/core'
     import { ref, watch, computed, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
     import { faCheck, faCheckDouble, faDumbbell } from '@fortawesome/free-solid-svg-icons'
+
+    const title = useTitle()
+    title.value = 'Home - EPICFIT'
 
     const currentMember = ref('')
     const animated = ref(false)

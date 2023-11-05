@@ -1,5 +1,7 @@
 <script setup>
-
+    import { useTitle } from '@vueuse/core'
+    const title = useTitle()
+    title.value = 'About Us - EPICFIT'
 </script>
 
 <template>
