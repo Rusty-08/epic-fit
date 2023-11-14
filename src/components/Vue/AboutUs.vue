@@ -1,7 +1,6 @@
 <script setup>
     import { useTitle } from '@vueuse/core'
-    const title = useTitle()
-    title.value = 'About Us - EPICFIT'
+    useTitle('About Us | EPICFIT');
 </script>
 
 <template>
@@ -56,7 +55,7 @@
         animation: fadeUp 0.7s ease;
     }
     .about-header p:last-child {
-        animation: fadeUp 8s ease;
+        animation: fadeUp 0.8s ease;
     }
     .about-header h1 {
         font-size: 4rem;
@@ -95,7 +94,7 @@
     }
     .more-info h4 {
         font-weight: 600;
-        transition: 0.375s ease;
+        transition: 0.175s ease;
     }
     .more-info h4,
     
@@ -104,11 +103,11 @@
         z-index: 5;
     }
     .more-info span {
-        transition: 0.375s ease;
+        transition: 0.175s ease;
     }
     .more-info p {
         color: var(--gray-light-color) !important;
-        transition: 0.375s ease;
+        transition: 0.175s ease;
     }
     .top-wave,
     .bottom-wave {

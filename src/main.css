@@ -161,3 +161,12 @@ a {
     opacity: 1;
   }
 }
+
+@keyframes scale {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}

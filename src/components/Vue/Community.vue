@@ -1,12 +1,9 @@
 <script setup>
     import { useTitle } from '@vueuse/core'
     import { ref, onMounted, computed, onUnmounted, onBeforeUnmount } from 'vue'
-    import { faArrowsRotate, faChevronLeft, faRotate } from '@fortawesome/free-solid-svg-icons'
+    import { faArrowRight, faArrowsRotate, faChevronLeft, faChevronRight, faRotate } from '@fortawesome/free-solid-svg-icons'
 
-    const title = useTitle()
-    title.value = 'Community - EPICFIT';
-
-    // const activePage = ref(sessionStorage.getItem('activePage'))
+    useTitle('Community | EPICFIT')
 
     const activeCaption = ref('')
     const activeDesc = ref('')
@@ -14,9 +11,8 @@
     const scrollAmount = ref(0)
 
     let autoSlide
-    let isAutoSlide = true;
     
-    const gallery = [
+    const gallery = ref([
         { 
             image: '/img/community-image1.svg',
             caption: 'Inclusivity',
@@ -37,32 +33,45 @@
             caption: 'Community',
             desc: 'Cultivating a supportive environment where fitness enthusiasts connect and thrive together, our vibrant community page fosters shared goals and celebrates collective achievements, promoting wellness as a unified journey.'
         },
-    ]
+    ])
 
-    const setAsActiveCategory = (index) => {
-        activeIndex.value = index
-        activeCaption.value = gallery[activeIndex.value].caption
-        activeDesc.value = gallery[activeIndex.value].desc
+    const setAsActiveCategory = () => {
+        activeIndex.value++
+
+        if (activeIndex.value > 0) {
+            activeIndex.value = 0
+            const firstItem = gallery.value.shift()
+            gallery.value = [...gallery.value, firstItem]
+        }
+
+        activeCaption.value = gallery.value[activeIndex.value].caption
+        activeDesc.value = gallery.value[activeIndex.value].desc
     }
 
-    const selectCategory = index => {
-        activeIndex.value = index
-        setAsActiveCategory((activeIndex.value + 1) % gallery.length)
-        scrollAmount.value = -100 * activeIndex.value
+    const slide = () => {
+        clearInterval(autoSlide)
+        autoSlide = setInterval(() => {
+            setAsActiveCategory()
+        }, 10000)
     }
-    
-    onMounted(() => {
-        setTimeout(() => {
-            autoSlide = setInterval(() => {
-                isAutoSlide = true
-                selectCategory(activeIndex.value)
-            }, 5000)
-        }, 5000)
-    })
 
     const selectOnClick = () => {
-        selectCategory(activeIndex.value)
-    };
+        setAsActiveCategory()
+        clearInterval(autoSlide)
+        setTimeout(slide, 5000)
+    }
+
+    const selectOnImageClick = index => {
+        if(index > 0) {
+            setAsActiveCategory()
+        }
+        clearInterval(autoSlide)
+        setTimeout(slide, 5000)
+    }
+
+    onMounted(() => {
+        setTimeout(slide, 5000)
+    });
     
 </script>
 
@@ -74,30 +83,40 @@
                     <h4 class="caption mb-3 fw-semibold" :key="activeCaption">{{ activeCaption || 'Our Mission and Values' }}</h4>
                 </transition>
                 <transition name="p-fade">
-                    <p class="desc mb-0 fs-7" :key="activeDesc">{{ activeDesc || 'At EPICFIT, our mission is to empower individuals to lead healthier, happier lives through exercise, nutrition, and a supportive community. Our core values drive everything we do.' }}</p>
+                    <p class="desc mb-3 fs-7" :key="activeDesc">{{ activeDesc || 'At EPICFIT, our mission is to empower individuals to lead healthier, happier lives through exercise, nutrition, and a supportive community. Our core values drive everything we do.' }}</p>
+                </transition>
+                <transition name="l-fade">
+                    <a  v-show="activeCaption !== ''"
+                        href=""
+                        class="fs-7 fw-light learn-more" 
+                        :key="activeDesc" 
+                        @click.prevent=""
+                    >
+                        Learn more
+                        <icon class="fs-10 mx-1" :icon="faChevronRight" />
+                    </a>
                 </transition>
             </div>
             <div class="gallery-wrapper position-relative w-50 d-flex align-items-center justify-content-center">
                 <button 
                     class="next-button btn position-absolute"
-                    @click.prevent="selectOnClick()"
+                    @click.prevent="selectOnClick"
                 >
                     <icon v-if="activeIndex !== 3" :icon="faChevronLeft" class="fs-6" />
                     <icon v-else :icon="faArrowsRotate" class="fs-6" />
                 </button>
-                <div class="image-slider d-flex position-absolute" >
+                <div class="image-slider d-flex gap-2 position-absolute" >
                     <a  
-                        href=""
                         v-for="(item, index) in gallery"
+                        href=""
                         class="image-catergory shadow-sm position-relative"
-                        :style="{ transform: `translateX(${scrollAmount}%)` }"
                         :class="{ 'active': activeCaption == item.caption}"
                         :key="index"
-                        @click.prevent="selectCategory(index - 1)"
+                        @click.prevent="selectOnImageClick(index)"
                     >
-                        <img :src="item.image" class="" alt="" draggable="false">
+                        <img :key="item.caption" :src="item.image" class="" alt="" draggable="false">
                         <div class="image-caption d-flex align-items-center justify-content-center w-100 pt-5 pb-3 px-0 position-absolute">
-                            <p class="mb-0 fs-9 text-center">{{ item.caption.toUpperCase() }}</p>
+                            <p :key="item.caption" class="mb-0 fs-9 text-center">{{ item.caption.toUpperCase() }}</p>
                         </div>
                     </a>
                 </div>
@@ -114,15 +133,33 @@
         height: 100dvh !important;
     }
     .initial .caption {
-        animation: fadeUp 0.8s ease;
+        animation-delay: 0.5s;
+        animation: fadeUp 0.7s ease;
     }
     .initial .desc {
-        animation: fadeUp 1s ease;
-    }
-    .h-fade-enter-active {
         animation: fadeUp 0.8s ease;
     }
+    .initial .learn-more {
+        animation: fadeUp 1s ease;
+    }
+    .learn-more,
+    .learn-more svg {
+        color: var(--tertiary-color);
+        transition: var(--transition-175s);
+    }
+    .learn-more:hover {
+        opacity: 0.8;
+    }
+    .learn-more:hover svg {
+        margin-left: 0.5rem !important;
+    }
+    .h-fade-enter-active {
+        animation: fadeUp 0.7s ease;
+    }
     .p-fade-enter-active {
+        animation: fadeUp 0.8s ease;
+    }
+    .l-fade-enter-active {
         animation: fadeUp 1s ease;
     }
     .gallery-wrapper {
@@ -157,19 +194,16 @@
         background-repeat: no-repeat;
         text-decoration: none !important;
         overflow: hidden !important;
-        transition: var(--transition-375s)
+        transition: var(--transition-375s);
     }
     .image-catergory img {
         height: 100%;
         overflow: hidden;
+        transition: var(--transition-275s);
     }
-    .image-catergory::before {
-        content: '';
-        position: absolute;
-        width: 0.5rem;
-        height: 100%;
-        background-color: var(--primary-color);
-        right: 0;
+    .image-catergory.active img {
+        animation: scale 1s ease;
+        transform: scale(1.05);
     }
     .image-catergory:last-child::before {
         width: 0;
@@ -178,9 +212,15 @@
     .image-catergory:hover p {
         color: var(--tertiary-color) !important;
     }
+    .image-catergory:hover .image-caption {
+        padding-bottom: 1.5rem !important;
+    }
+    .image-catergory:active img {
+        transform: scale(1.04);
+    }
     .image-caption {
         bottom: 0;
-        right: 0.5rem;
+        transition: var(--transition-275s);
         background: linear-gradient(to top, var(--secondary-color), transparent);
     }
     .image-catergory:last-child .image-caption {

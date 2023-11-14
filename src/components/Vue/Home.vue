@@ -3,8 +3,7 @@
     import { ref, watch, computed, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
     import { faCheck, faCheckDouble, faDumbbell } from '@fortawesome/free-solid-svg-icons'
 
-    const title = useTitle()
-    title.value = 'Home - EPICFIT'
+    useTitle('Home | EPICFIT') 
 
     const currentMember = ref('')
     const animated = ref(false)
@@ -145,7 +144,7 @@
         height: 100dvh;
     }
     .introduction h1 {
-        font-size: clamp(2rem, 5vw, 3.8rem);
+        font-size: clamp(2rem, 5vw, 4rem);
         animation: fadeUp 0.8s ease;
     }
     .introduction .home-desc {
@@ -242,6 +241,7 @@
         padding: 2.5rem 1.5rem !important;
         border: none;
         backdrop-filter: blur(10px);
+        transition: transform 0.275s ease !important;
     }
     .pricing-item:first-child {
         transition: 0.5s ease;
@@ -315,7 +315,7 @@
         color: rgba(255, 159, 62, 0.1) !important;
     }
     .pricing-item:hover {
-        transform: translateY(-1rem);
+        transform: translateY(-1rem) !important;
     }
     .pricing-item:hover .dumbbell {
         height: 1.3rem;
